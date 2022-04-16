@@ -10,8 +10,9 @@
 * [ahooks源码学习笔记](https://github.com/smallmonsters/tree/master/ahooks源码学习笔记)
 * [jest笔记](https://github.com/smallmonsters/jest_study)
 * [一些脚本合集](https://github.com/smallmonsters/script-compilations)
-* [utils](https://github.com/smallmonsters/my-utils)
+* [Chrome相关](https://github.com/smallmonsters/tree/master/Chrome)
 
 ## 兴趣爱好
 
-[古筝](https://github.com/smallmonsters/music)
+* [古筝](https://github.com/smallmonsters/music)
+* [围棋](https://github.com/smallmonsters/weiqi)
