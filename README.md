@@ -11,6 +11,7 @@
 * [jest笔记](https://github.com/smallmonsters/jest_study)
 * [一些脚本合集](https://github.com/smallmonsters/script-compilations)
 * [Chrome相关](https://github.com/smallmonsters/tree/master/Chrome)
+* [Linux](https://github.com/smallmonsters/tree/master/Linux)
 
 ## 兴趣爱好
 
