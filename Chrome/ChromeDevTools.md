@@ -51,7 +51,18 @@
 * 比较实用的[Api](https://developer.chrome.com/docs/devtools/console/api)  
 
   >[table](<https://developer.chrome.com/docs/devtools/console/api/#table>):显示list更好看  
-  >[group](<https://developer.chrome.com/docs/devtools/console/api/#group>):显示多个值更好看  
+  >[group](<https://developer.chrome.com/docs/devtools/console/api/#group>):显示多个值更好看
+
+  ```javascript
+  const label = 'Adolescent Irradiated Espionage Tortoises';
+  console.group(label);
+  console.info('Leo');
+  console.info('Mike');
+  console.info('Don');
+  console.info('Raph');
+  console.groupEnd(label);
+  ```
+
   >[assert](<https://developer.chrome.com/docs/devtools/console/api/#assert>):断言打印
 
 * [live-expressions](https://developer.chrome.com/docs/devtools/console/live-expressions/)  
