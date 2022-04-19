@@ -12,6 +12,7 @@
 * [一些脚本合集](https://github.com/smallmonsters/script-compilations)
 * [Chrome相关](https://github.com/smallmonsters/tree/master/Chrome)
 * [Linux](https://github.com/smallmonsters/tree/master/Linux)
+* [webApi](https://github.com/smallmonsters/tree/master/webApi)
 
 ## 兴趣爱好
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>获取页面选中的文字</title>
+</head>
+
+<body>
+  <p>这是一段文本</p>
+  <p>这是一段文本
+    <span id="span">span标签
+      <i id="i">i标签</i>
+    </span>
+    这是一段文本
+  </p>
+  <div>
+    <div id="selection"></div>
+  </div>
+</body>
+<script></script>
+<script>
+  const selection = document.getElementById("selection");
+  const anchorNode = document.getElementById("anchorNode");
+  const span = document.getElementById("span");
+  const i = document.getElementById("i");
+  const fn = () => {
+    const _select = window.getSelection()
+    console.log(_select, '_select')
+    selection.innerText = `
+    选中文本：${_select?.toString()}
+    ${_select.containsNode(i, true) ? "i标签被选中" : "i标签没有选中"}
+    ${_select.containsNode(span, false) ? "span标签完全被选中" : "span标签没有完全选中"}`
+  }
+  Array.from(document.getElementsByTagName("p")).map((ele) => {
+    ele.addEventListener("mouseup", fn)
+  })
+</script>
+
+</html>
