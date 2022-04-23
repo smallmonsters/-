@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMLCollection</title>
+</head>
+
+<style>
+    #floatBox {
+        background-color: antiquewhite;
+    }
+    
+    #floatBox p {
+        width: 100px;
+        height: 100px;
+        background-color: aqua;
+        display: inline-block;
+    }
+    
+    #floatBox p:nth-child(2) {
+        float: left;
+        background-color: azure;
+    }
+</style>
+
+<body>
+    <div id="box1">
+        box1
+        <div id="floatBox">
+            浮动box
+            <p>正常元素</p>
+            <p>左浮动元素</p>
+        </div>
+        <span></span>
+    </div>
+
+</body>
+<script>
+    const box1 = document.getElementById("box1");
+    const span1 = document.querySelector("#box1 span")
+    span1.innerText = `
+    document.querySelector第一个p元素是：${document.querySelector("#box1 p").innerText}
+    box1.getElementsByTagName第一个p元素是：${box1.getElementsByTagName("p").item(0).innerText}
+    `
+</script>
+
+</html>

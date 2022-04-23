@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Range对象</title>
+</head>
+
+<body>
+  <p>这是一段文本<span>span标签</span><i>i标签</i>这是一段文本</p>
+  <button onclick="selectText()">选中文本</button>
+  <button>选中文本</button>
+</body>
+<script>
+  //选中文本
+  const selectText = () => {
+    const selection = window.getSelection();
+    console.log(selection.rangeCount, "selection");
+    //不取消，无法重新选中文本
+    selection.removeAllRanges();
+    var range = document.createRange();
+    var node = document.getElementsByTagName("p").item(0);
+    var startOffset = 0;
+    range.setStart(node, startOffset);
+    var endOffset = node.childNodes.length;
+    range.setEnd(node, 2);
+    selection.addRange(range);
+  };
+</script>
+
+</html>
