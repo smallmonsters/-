@@ -14,6 +14,9 @@
 * [Linux](https://github.com/smallmonsters/my-growth/tree/master/Linux)
 * [webApi](https://github.com/smallmonsters/my-growth/tree/master/webApi)
 * [docker](https://github.com/smallmonsters/my-growth/tree/master/docker)
+* [Shell](https://github.com/smallmonsters/my-growth/tree/master/Shell)
+* [ReactNative](https://github.com/smallmonsters/my-growth/tree/master/ReactNative)
+* [Git](https://github.com/smallmonsters/my-growth/tree/master/Git)
 
 ## 兴趣爱好
 
