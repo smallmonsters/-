@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    function changStyle(target, style) {
+      target.setAttribute("style", style);
+    }
+
+    function changDataArt(target) {
+      target.setAttribute("data-name", "新的自定义属性");
+      target.setAttribute("data-name1", "newDataName1");
+      console.log(target);
+    }
+
+    function deleteChild() {
+      const children = document.getElementById("children");
+      children.remove();
+    }
+
+    function colorRed(target) {
+      changStyle(target, "color:red");
+    }
+
+    function colorGreen(target) {
+      changStyle(target, "color:green");
+    }
+
+    function colorYellow(target) {
+      changStyle(target, "color:yellow");
+    }
+
+    function changeMultiAttr(target) {
+      colorYellow(target);
+      changDataArt(target);
+      // 这里要立即执行
+      print();
+    }
+
+    function getTargetAttr(target, attr) {
+      return target.getTargetAttr(attr);
+    }
+  </script>
+
+  <body>
+    <div id="parent" data-name="自定义属性">
+      父元素
+      <p id="children">子元素<span id="grandson">孙子元素</span></p>
+      <p></p>
+    </div>
+    <!-- 这里不会触发子元素的observe -->
+    <button onclick="colorRed(parent)">修改父元素字体颜色</button>
+    <button onclick="colorGreen(child)">修改子元素字体颜色</button>
+    <button onclick="colorYellow(grandson)">修改孙子元素字体颜色</button>
+    <button onclick="changDataArt(parent)">修改父元素自定义属性</button>
+    <button onclick="deleteChild()">删除子元素</button>
+    <div id="parent1" data-name="parent">
+      父元素1
+      <span id="children">子元素1</span>
+    </div>
+    <button onclick="colorYellow(parent1)">父元素1</button>
+    <button onclick="changeMultiAttr(parent1)">用takeRecord</button>
+    <button onclick="stop()">停止观察</button>
+    <button onclick="print()">打印变化记录</button>
+  </body>
+  <script>
+    const parent = document.getElementById("parent");
+    const parent1 = document.getElementById("parent1");
+    const child = document.getElementById("children");
+    const grandson = document.getElementById("grandson");
+    const config = {
+      // characterData?: boolean;
+      // characterDataOldValue?: boolean;
+      // 只观察class的改变
+      // attributeFilter: ["class"],
+      childList: false,
+      attributeOldValue: false,
+      attributes: true,
+      subtree: true,
+    };
+    const callback = function (mutationsList, observer) {
+      console.log(mutationsList, observer);
+    };
+    const observer = new MutationObserver(callback);
+
+    observer.observe(parent, config);
+    const config1 = {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    };
+
+    //观测多个元素
+    observer.observe(parent1, config1);
+
+    function stop() {
+      observer.disconnect();
+    }
+    function print() {
+      console.log(observer.takeRecords());
+    }
+  </script>
+</html>
