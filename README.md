@@ -6,17 +6,17 @@
 
 * [函数式学习](https://github.com/smallmonsters/my-growth/tree/master/函数式学习)
 * [面试笔记](https://github.com/smallmonsters/my-growth/tree/master/面试笔记)
-* [vscode](https://github.com/smallmonsters/my-growth/tree/master/vscode)
-* [ahooks源码学习笔记](https://github.com/smallmonsters/my-growth/tree/master/ahooks源码学习笔记)
-* [jest笔记](https://github.com/smallmonsters/jest_study)
 * [一些脚本合集](https://github.com/smallmonsters/script-compilations)
+* [ahooks源码学习笔记](https://github.com/smallmonsters/my-growth/tree/master/ahooks源码学习笔记)
 * [Chrome相关](https://github.com/smallmonsters/my-growth/tree/master/Chrome)
-* [Linux](https://github.com/smallmonsters/my-growth/tree/master/Linux)
-* [webApi](https://github.com/smallmonsters/my-growth/tree/master/webApi)
 * [docker](https://github.com/smallmonsters/my-growth/tree/master/docker)
-* [Shell](https://github.com/smallmonsters/my-growth/tree/master/Shell)
-* [ReactNative](https://github.com/smallmonsters/my-growth/tree/master/ReactNative)
 * [Git](https://github.com/smallmonsters/my-growth/tree/master/Git)
+* [jest笔记](https://github.com/smallmonsters/jest_study)
+* [Linux](https://github.com/smallmonsters/my-growth/tree/master/Linux)
+* [ReactNative](https://github.com/smallmonsters/my-growth/tree/master/ReactNative)
+* [Shell](https://github.com/smallmonsters/my-growth/tree/master/Shell)
+* [vscode](https://github.com/smallmonsters/my-growth/tree/master/vscode)
+* [webApi](https://github.com/smallmonsters/my-growth/tree/master/webApi)
 
 ## 兴趣爱好
 
