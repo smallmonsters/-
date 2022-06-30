@@ -41,7 +41,7 @@ nginx默认html在 /opt/homebrew/var/www 下，软连接在 /opt/homebrew/Cellar
         server_name  localhost;
 
         location / {
-            # 文件根目录，通常是前端build文件
+            # 文件根目录，通常放前端build文件，可以自己修改路径
             root   html/child/zhsd;
             index  index.html index.htm;
         }
