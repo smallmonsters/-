@@ -6,8 +6,10 @@
 
 #### 语法
 
+getopts是一个函数 opt_string opt_string，都是参数
+
 ```bash
-getopts opt_string  var_name [参数args]
+getopts opt_string  opt_string [参数args]
 # eg
 # getopts ":o:p::v" 和 getopts ":o::p:v"等同的
 while getopts ":o:p::v" opt; do
@@ -41,7 +43,22 @@ done
 
 opt_string可以使多个选项，eg：:a:b:c表示 抑制错误报告模式，-a需要参数；-b需要参数；-c不需要参数。
 
-#### $OPTARG
+#### getopts 总结
+
+#### 问题
+
+* 1、OPTARG和opt变量怎么得到的
+
+> OPTARG：是一个局部变量  
+> opt：是在函数外定义的一个变量，然后在getopts函数中赋值
+
+```bash
+test() {
+  a=123
+}
+test a
+echo $a # 123
+```
 
 ### getopts与getopt的区别
 
