@@ -49,11 +49,27 @@ nginx默认html在 /opt/homebrew/var/www 下，软连接在 /opt/homebrew/Cellar
    server{
         listen       9000;
         server_name  localhost;
-
         location / {
             root   html/child/build;
             index  index.html index.htm;
         }
     }
 
+```
+
+### Nginx代理history路由刷新404
+
+```bash
+...
+   server{
+        listen       9000;
+        server_name  localhost;
+        location / {
+            ...
+            # 解决 刷新 404
+            try_files $uri $uri/ /index.html;
+            error_page 404 /index.html;
+        }
+    }
+...
 ```
