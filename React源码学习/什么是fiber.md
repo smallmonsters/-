@@ -16,6 +16,13 @@ fiber是一个链表数据， fiber 和 dom tree 中间存在映射关系。
 * fiber
 对diff算法的优化。react 会先把 vdom 转 fiber，也就是 reconcile 的过程，因为 fiber 是链表，就可以打断，用 schedule 来空闲时调度（requestIdleCallback）就行，最后全部转完之后，再一次性 render，这个过程叫做 commit。react17中fiber是同步的即Legacy 模式。react18中fiber是可中断的即Concurrnt模式(react 推荐使用)。
 
+## FiberRoot和rootFiber
+
+* FiberRoot
+  FiberRoot是整个项目的根节点，包含应用挂载的目标节点，记录整个应用更新过程的各种信息，由FiberRootNode函数构造
+* rootFiber
+  rootFiber是当前应用挂载的节点，即ReactDOM.render调用后的根节点，由FiberNode函数构造
+
 ## 资料
 
 [走进 React Fiber 的世界](https://developer.aliyun.com/article/782946)
