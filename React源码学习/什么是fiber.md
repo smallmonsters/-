@@ -23,7 +23,7 @@ fiber是一个链表数据， fiber 和 dom tree 中间存在映射关系。
 * rootFiber
   rootFiber是当前应用挂载的节点，即ReactDOM.render调用后的根节点，由FiberNode函数构造
 * 关系图
-  [!关系图](./asset/1.png)
+  ![关系图](./asset/1.png)
 
 ## 资料
 
