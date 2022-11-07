@@ -8,7 +8,22 @@
     - [SDK和api](#sdk和api)
     - [应用程序组件](#应用程序组件)
     - [镜像（image）](#镜像image)
-  - [依赖包](#依赖包)
+    - [模块和项目](#模块和项目)
+    - [dip(dp)和dpi](#dipdp和dpi)
+    - [ConstraintLayout，RelativeLayout和LinearLayout区别](#constraintlayoutrelativelayout和linearlayout区别)
+    - [RecyclerView](#recyclerview)
+  - [Android Gradle](#android-gradle)
+  - [Gradle配置](#gradle配置)
+    - [Project的build.gradle文件](#project的buildgradle文件)
+    - [Module的build.gradle文件](#module的buildgradle文件)
+      - [apply plugin](#apply-plugin)
+      - [defaultConfig](#defaultconfig)
+      - [buildTypes](#buildtypes)
+      - [dependencies](#dependencies)
+      - [compileOptions](#compileoptions)
+  - [AndroidManifest.xml](#androidmanifestxml)
+  - [资源类型概览（res/xx）](#资源类型概览resxx)
+  - [Jetpack Compose](#jetpack-compose)
   
 ## 基础知识
 
@@ -61,4 +76,151 @@ api就相当与接口。在这个版本的api里调用相机是接收一个参�
 - armv7没有64位模式，只有32位。骁龙800和之前的soc跑不了这个软件的。
 - 安卓手机只要年代比骁龙810晚，并且是64位处理器的，那么就能运行该程序
 
-## 依赖包
+### 模块和项目
+
+Android Studio 中的概念。项目（Project）对应其他软件（vscode）中的工作空间（WorkSpace），模块（Module）对应其他软件（vscode）中的项目（Project）
+
+### dip(dp)和dpi
+
+- dip(dp): 在dpi = 160屏幕上，1dp = 1px。
+- dpi: 每英寸点数，即每英寸包含像素个数。手机对角的分辨率/手机的大小(手机是多少英寸)，如1920*1080的4.95寸的手机，dpi=2202(1920^2+1080^2=2202^2)/4.95=445
+- px=dpi*dip(dp)/160
+
+### ConstraintLayout，RelativeLayout和LinearLayout区别
+
+TODO:
+
+### RecyclerView
+
+[官网](https://developer.android.google.cn/guide/topics/ui/layout/recyclerview?hl=zh-cn)
+
+## Android Gradle
+
+[官方文档](https://developer.android.google.cn/studio/releases/gradle-plugin?hl=zh-cn#groovy)
+
+## Gradle配置
+
+[官方文档](https://developer.android.google.cn/studio/build?hl=zh-cn)
+
+### Project的build.gradle文件
+
+```Groovy
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {//这里是gradle脚本执行所需依赖，分别是对应的maven库和插件
+    
+    repositories {
+        google()//从Android Studio3.0后新增了google()配置，可以引用google上的开源项目
+        jcenter()//是一个类似于github的代码托管仓库，声明了jcenter()配置，可以轻松引用 jcenter上的开源项目
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'////此处是android的插件gradle，gradle是一个强大的项目构建工具
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {//这里是项目本身需要的依赖，比如项目所需的maven库
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+// 运行gradle clean时，执行此处定义的task任务。
+// 该任务继承自Delete，删除根目录中的build目录。
+// 相当于执行Delete.delete(rootProject.buildDir)。
+// gradle使用groovy语言，调用method时可以不用加（）。
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+```
+
+### Module的build.gradle文件
+
+#### apply plugin
+
+```Groovy
+// 声明是Android程序，
+//com.android.application 表示这是一个应用程序模块
+//com.android.library 标识这是一个库模块
+//而这区别：前者可以直接运行，后着是依附别的应用程序运行
+apply plugin: 'com.android.application'
+```
+
+#### defaultConfig
+
+```Groovy
+    compileSdkVersion 27//设置编译时用的Android版本
+    defaultConfig {
+        applicationId "com.billy.myapplication"//项目的包名，与清单文件的manifest中的package一致
+        minSdkVersion 16//项目最低兼容的版本
+        targetSdkVersion 27//项目的目标版本
+        versionCode 1//版本号，必须是整数
+        versionName "1.0"//版本名称
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"//表明要使用AndroidJUnitRunner进行单元测试
+    }
+```
+
+#### buildTypes
+
+```Groovy
+    buildTypes {// 生产/测试环境配置
+        release {// 生产环境
+            buildConfigField("boolean", "LOG_DEBUG", "false")//配置Log日志
+            buildConfigField("String", "URL_PERFIX", "\"https://release.cn/\"")// 配置URL前缀
+            minifyEnabled false//是否对代码进行混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
+            signingConfig signingConfigs.release//设置签名信息
+            pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
+            zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
+            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+        }
+        debug {// 测试环境
+            buildConfigField("boolean", "LOG_DEBUG", "true")//配置Log日志
+            buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
+            minifyEnabled false//是否对代码进行混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
+            signingConfig signingConfigs.debug//设置签名信息
+            debuggable false//是否支持断点调试
+            jniDebuggable false//是否可以调试NDK代码
+            renderscriptDebuggable false//是否开启渲染脚本就是一些c写的渲染方法
+            zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
+            pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
+            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+        }
+    }
+```
+
+#### dependencies
+
+```Groovy
+implementation 'androidx.appcompat:appcompat:1.4.1' // 官方解决不同版本的兼容依赖
+implementation fileTree(include: ['*.jar'], dir: 'libs')//本地jar包依赖
+```
+
+#### compileOptions
+
+```Groovy
+ compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8 //表示 编译使用的 Java 版本
+        targetCompatibility JavaVersion.VERSION_1_8 //表示 生成 Java 字节码版本
+        encoding "UTF-8" //表示加载的 Java 源文件的编码 , 默认为 UTF-8 , 类型为字符串 
+        incremental true //是否启用 gradle 新增加的 增量模式 , 默认为 true 
+    }
+```
+
+## AndroidManifest.xml
+
+[官方文档](https://developer.android.google.cn/guide/topics/manifest/manifest-intro?hl=zh-cn)
+
+## 资源类型概览（res/xx）
+
+[官方文档](https://developer.android.google.cn/guide/topics/resources/available-resources?hl=zh-cn)
+
+## Jetpack Compose
+<!-- TODO: https://developer.android.google.cn/jetpack/compose/documentation?hl=zh-cn -->
