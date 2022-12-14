@@ -1,5 +1,6 @@
 - [git log  --stat](#git-log----stat)
 - [git log --since="time"](#git-log---sincetime)
+- [git log filename](#git-log-filename)
 - [中文文档](#中文文档)
 
 ### git log  --stat
@@ -10,5 +11,9 @@
 ### git log --since="time"
 
 仅显示指定时间之后的提交
+
+### git log filename
+
+查看某文件的修改历史
 
 ### [中文文档](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2#log_options)

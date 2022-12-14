@@ -33,10 +33,11 @@
 node_modules
 ```
 
-### 使用react hook
+### 使用[react hook](https://www.npmjs.com/package/eslint-plugin-react-hooks)
 
 > yarn add eslint-plugin-react-hooks --dev
 > .eslintrc.js："plugin:react-hooks/recommended"替换"plugin:react/recommended"
+> .eslintrc.js："plugins: ['react-hook'],"替换" plugins: ['react'],"
 
 ### 无法检测
 

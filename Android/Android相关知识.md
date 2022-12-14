@@ -12,6 +12,11 @@
     - [dip(dp)和dpi](#dipdp和dpi)
     - [ConstraintLayout，RelativeLayout和LinearLayout区别](#constraintlayoutrelativelayout和linearlayout区别)
     - [RecyclerView](#recyclerview)
+  - [文件存储](#文件存储)
+    - [内部存储](#内部存储)
+      - [典型的内部存储目录结构](#典型的内部存储目录结构)
+      - [API](#api)
+    - [外部存储](#外部存储)
   - [Android Gradle](#android-gradle)
   - [Gradle配置](#gradle配置)
     - [Project的build.gradle文件](#project的buildgradle文件)
@@ -93,6 +98,39 @@ TODO:
 ### RecyclerView
 
 [官网](https://developer.android.google.cn/guide/topics/ui/layout/recyclerview?hl=zh-cn)
+
+## 文件存储
+
+内部存 /外部存储 是在**文件系统逻辑层**面相对于开发者来说的，指具体的路径。
+
+### 内部存储
+
+- 文件默认只能被你的应用访问到,当应用卸载之后，内部存储中的这些文件也被删除。
+- 如果你在创建内部存储文件的时候将文件属性设置成可读且文件的属性不是私有（private），其他app在知道应用的包名就能够访问应用的数据
+- 路径：/data/data/package_name
+
+#### 典型的内部存储目录结构
+
+- app_webview：主要用于存储webview加载过程中的数据，例如Cookie，LocalStorage等。
+- cache：主要用于存储使用应用过程中产生的缓存数据。
+- databases：主要用于存储数据库类型的数据。我们平常创建的数据库文件就是存储在这里。
+- files：可以在该目录下存储配置文件，敏感数据等。
+- shared_prefs：用于存储SharedPreference文件。我们使用SharedPreference的时候只指定了文件名，并没有指定存储路径，其实SP的文件就是保存到了这个目录下。
+
+#### API
+
+```java
+getDataDir()  //获取的目录是/data/user/0/package_name，即应用内部存储的根目录
+getFilesDir() //获取的目录是/data/user/0/package_name/files，即应用内部存储的files目录
+getCacheDir() //获取的目录是/data/user/0/package_name/cache，即应用内部存储的cache目录
+getDir(String name, int mode) //获取的目录是/data/user/0/package_name/app_name，如果该目录不存在，系统会自动创建该目录。
+```
+
+### 外部存储
+
+- 外部存储，分为 公共目录 和 私有目录
+- 4.4（API19）以前是内置存储（机身存储）当做内部存储，扩展的SD卡当做是外部存储。**公共目录和私有目录都需要读写权限**
+- 4.4（API19）以后是机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分，扩展的SD卡仍是外部存储。**公共目录需要读写权限**和**私有目录都不需要读写权限**
 
 ## Android Gradle
 
