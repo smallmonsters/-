@@ -16,6 +16,7 @@
     - [echarts词云图：echarts-wordcloud](#echarts词云图echarts-wordcloud)
     - [页面全屏：screenfull](#页面全屏screenfull)
     - [浏览器顶部的进度条：NProgress](#浏览器顶部的进度条nprogress)
+    - [阿里巴巴统一前端表单解决方案：formily](#阿里巴巴统一前端表单解决方案formily)
 
 ## React
 
@@ -60,3 +61,7 @@
 
 >react使用：<https://blog.csdn.net/m0_37890289/article/details/109739783>  
 >vue使用：<https://juejin.cn/post/6987555633683759134>  
+
+### [阿里巴巴统一前端表单解决方案](https://github.com/alibaba/formily)：formily
+
+> 官网：<https://formilyjs.org/zh-CN>，支持vue和react
