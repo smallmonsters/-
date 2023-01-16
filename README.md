@@ -26,3 +26,4 @@
 
 * [古筝](https://github.com/smallmonsters/music)
 * [围棋](https://github.com/smallmonsters/weiqi)
+test
