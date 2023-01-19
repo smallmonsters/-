@@ -23,6 +23,11 @@
     - [HTML转换为markdown：turndown](#html转换为markdownturndown)
     - [拖拽工具：Sortable](#拖拽工具sortable)
     - [水印：watermark-dom](#水印watermark-dom)
+    - [根据注释生成文档：jsDoc](#根据注释生成文档jsdoc)
+  - [Nodejs](#nodejs)
+    - [node命令行接口简单操作：commander](#node命令行接口简单操作commander)
+    - [析Semantic Version（语义化版本）的工具：Semver](#析semantic-version语义化版本的工具semver)
+    - [测量两个字符串之间的差异的个数：leven](#测量两个字符串之间的差异的个数leven)
 
 ## React
 
@@ -91,3 +96,60 @@ Vue.Draggable是一款基于Sortable.js实现的vue拖拽插件。
 >dome：<https://jsbin.com/fogujiv/edit?js,output>  
 
 ### [水印](https://gitee.com/ADgirl/watermark-dom)：watermark-dom
+
+### [根据注释生成文档](https://github.com/jsdoc/jsdoc)：jsDoc
+
+> 资料一：[jsdoc通过注解生成HTML API文档](https://blog.csdn.net/xdhc304/article/details/95216722)
+
+## Nodejs
+
+### [node命令行接口简单操作](https://github.com/tj/commander.js/blob/master/Readme_zh-CN.md)：commander
+
+### [析Semantic Version（语义化版本）的工具](https://github.com/npm/node-semver#readme)：Semver
+
+> 资料一：[Semver](https://www.jianshu.com/p/2d4ff5c94560)
+> 资料二：[semver：语义版本号标准 + npm的版本控制器](https://juejin.cn/post/7122240572491825160)
+
+```js
+const { semver } = require('semver')
+const { chalk } = require('chalk')
+const requiredVersion = require('../package.json').engines.node
+
+function checkNodeVersion (wanted, id) {
+  if (!semver.satisfies(process.version, wanted, { includePrerelease: true })) {
+    console.log(chalk.red(
+      'You are using Node ' + process.version + ', but this version of ' + id +
+      ' requires Node ' + wanted + '.\nPlease upgrade your Node version.'
+    ))
+    process.exit(1)
+  }
+}
+
+checkNodeVersion(requiredVersion, '@vue/cli')
+```
+
+### [测量两个字符串之间的差异的个数](https://github.com/sindresorhus/leven)：leven
+
+命令输入错位用来提示正确的命令
+
+```js
+function suggestCommands (unknownCommand) {
+  const availableCommands = program.commands.map(cmd => cmd._name)
+
+  let suggestion
+
+  availableCommands.forEach(cmd => {
+    const isBestMatch = leven(cmd, unknownCommand) < leven(suggestion || '', unknownCommand)
+    if (leven(cmd, unknownCommand) < 3 && isBestMatch) {
+      suggestion = cmd
+    }
+  })
+
+  if (suggestion) {
+    console.log(`  ` + chalk.red(`Did you mean ${chalk.yellow(suggestion)}?`))
+  }
+}
+```
+
+> 资料一：[脚手架系列-minimist、leven、slash](https://juejin.cn/post/6975687741761650695)
+> 资料二：[编辑距离算法详解](https://blog.csdn.net/www_helloworld_com/article/details/83871056)
