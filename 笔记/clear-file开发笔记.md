@@ -3,12 +3,17 @@
 - [clean-file开发笔记](#clean-file开发笔记)
   - [package.json配置](#packagejson配置)
     - [bin字段](#bin字段)
-    - [Select a new version如何选择](#select-a-new-version如何选择)
+    - [maintainers字段](#maintainers字段)
+    - [npm显示仓库地址](#npm显示仓库地址)
+    - [发布](#发布)
   - [安装一个本地包到全局中](#安装一个本地包到全局中)
+  - [git 设置权限](#git-设置权限)
 
 clean-file node脚本开发笔记
 
 ## package.json配置
+
+> 资料一：[NPM Package.json 字段列表(包括非官方字段)](https://juejin.cn/post/6868073747174621197#heading-19)  
 
 ### bin字段
 
@@ -24,7 +29,11 @@ clean-file node脚本开发笔记
 
 test就是终端中使用的命令，./index.js就是执行的文件
 
-### Select a new version如何选择
+### maintainers字段
+
+### npm显示仓库地址
+
+### 发布
 
 > 资料一：[超详细 如何发布自己的 npm 包](https://juejin.cn/post/7039140144250617887)
 > 资料一：[@lerna/publish](http://www.febeacon.com/lerna-docs-zh-cn/routes/commands/publish.html)
@@ -32,3 +41,5 @@ test就是终端中使用的命令，./index.js就是执行的文件
 ## 安装一个本地包到全局中
 
 npm install <folder>
+
+## git 设置权限

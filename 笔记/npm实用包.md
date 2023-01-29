@@ -105,6 +105,8 @@ Vue.Draggable是一款基于Sortable.js实现的vue拖拽插件。
 
 ### [node命令行接口简单操作](https://github.com/tj/commander.js/blob/master/Readme_zh-CN.md)：commander
 
+- [commander问题记录](./commander%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md)
+
 ### [析Semantic Version（语义化版本）的工具](https://github.com/npm/node-semver#readme)：Semver
 
 > 资料一：[Semver](https://www.jianshu.com/p/2d4ff5c94560)
@@ -130,7 +132,7 @@ checkNodeVersion(requiredVersion, '@vue/cli')
 
 ### [测量两个字符串之间的差异的个数](https://github.com/sindresorhus/leven)：leven
 
-命令输入错位用来提示正确的命令
+命令输入错误用来提示正确的命令
 
 ```js
 function suggestCommands (unknownCommand) {
