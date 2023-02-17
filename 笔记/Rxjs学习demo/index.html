@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rxjs学习demo</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/rxjs/7.8.0/rxjs.umd.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.js"></script>
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    p {
+      padding: 0;
+      margin: 0;
+    }
+
+    textarea {
+      display: block;
+      resize: none;
+      margin: 10px 0;
+      width: 600px;
+    }
+
+    .code,
+    .answer {
+      width: 600px;
+      height: 280px;
+      overflow: scroll;
+    }
+
+    .answer {
+      width: 600px;
+      margin: 10px 0;
+      height: 180px;
+      border: 1px solid #00000080;
+    }
+
+    #box {
+      width: 600px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 资源一: https://juejin.cn/post/6910943445569765384#heading-19 -->
+  <div id="box">
+    <div id="demo1">
+      <h3>1、Rx.Observable.create接收一个Promise函数</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+    <div id="demo2">
+      <h3>2、流程控制操作符: distinctUntilChanged</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+    <div id="demo3">
+      <h3>3、subscribe执行多次</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+    <div id="demo4">
+      <h3>4、单播和多播</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+    <div id="demo5">
+      <h3>5、BehaviorSubject</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+    <div id="demo6">
+      <h3>6、BehaviorSubject的多播</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+    <div id="demo7">
+      <h3>7、多播操作符:publish</h3>
+      <textarea class="code"></textarea>
+      <button class="run">运行</button>
+      <div class="answer"></div>
+    </div>
+  </div>
+</body>
+<script>
+  let log = console.log
+  $(".run").click(function () {
+    $(".answer").html("")
+    const code = $(this).prev().val()
+    const answer = $(this).next()
+    answer.children().remove()
+    console.log = null
+    console.log = (...value) => {
+      value.forEach(i => {
+        answer.append('<br/>' + i)
+        log(i)
+      })
+
+    }
+    eval(code)
+  })
+</script>
+
+<script>
+  Array.from($("#box > div")).forEach(v => {
+    const item = v.id
+    fetch(`./${item}.js`).then(function (response) {
+      return response.blob();
+    }).then(function (response) {
+      let reader = new FileReader();
+      reader.onload = event => {
+        $(`#${item} > .code`).val(event.currentTarget.result)
+      }
+      reader.readAsText(response)
+    });
+  })
+</script>
+
+</html>
