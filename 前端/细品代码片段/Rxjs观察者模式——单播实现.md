@@ -1,6 +1,5 @@
-# 代码片段
 
-## 观察者模式——单播实现
+# 观察者模式——单播实现
 
 ```js
 const source = Rx.Observable.interval(1000).take(3);

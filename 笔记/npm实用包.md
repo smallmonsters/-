@@ -4,6 +4,7 @@
   - [React](#react)
     - [react编辑器：react-monaco-editor](#react编辑器react-monaco-editor)
     - [react弹簧动画库：react-spring](#react弹簧动画库react-spring)
+    - [react单页SEO：react-helmet](#react单页seoreact-helmet)
   - [Vue](#vue)
     - [代码在线编辑：vue-codemirror](#代码在线编辑vue-codemirror)
     - [vue 拖拽：vuedraggable](#vue-拖拽vuedraggable)
@@ -25,6 +26,7 @@
     - [拖拽工具：Sortable](#拖拽工具sortable)
     - [水印：watermark-dom](#水印watermark-dom)
     - [根据注释生成文档：jsDoc](#根据注释生成文档jsdoc)
+    - [前端性能：lighthouse](#前端性能lighthouse)
   - [Nodejs](#nodejs)
     - [node命令行接口简单操作：commander](#node命令行接口简单操作commander)
     - [析Semantic Version（语义化版本）的工具：Semver](#析semantic-version语义化版本的工具semver)
@@ -35,6 +37,8 @@
 ### [react编辑器](https://github.com/react-monaco-editor/react-monaco-editor)：react-monaco-editor
 
 ### [react弹簧动画库](https://github.com/pmndrs/react-spring)：react-spring
+
+### [react单页SEO](https://www.npmjs.com/package/react-helmet)：react-helmet
 
 ## Vue
 
@@ -103,6 +107,10 @@ Vue.Draggable是一款基于Sortable.js实现的vue拖拽插件。
 ### [根据注释生成文档](https://github.com/jsdoc/jsdoc)：jsDoc
 
 > 资料一：[jsdoc通过注解生成HTML API文档](https://blog.csdn.net/xdhc304/article/details/95216722)
+
+### [前端性能](https://github.com/GoogleChrome/lighthouse)：lighthouse
+>
+> 资料一：[使用 Lighthouse 分析前端性能](https://zhuanlan.zhihu.com/p/376925215)
 
 ## Nodejs
 
