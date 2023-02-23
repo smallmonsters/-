@@ -11,4 +11,7 @@ git fetch --depth 1 origin remote_branch_name
 git checkout remote_branch_name
 ```
 
-**注意：**如果使用了git pull 拉取其他分支，${branch}分支就不在是浅克隆了。
+**注意**：如果使用了git pull 拉取其他分支，${branch}分支就不在是浅克隆了。(个人尝试git pull后git log还是一个commit)  
+
+- 想要克隆tag直接使用git pull origin remoteTag这个也是浅克隆，如果使用 git pull origin remoteTag:newTag这个不是浅克隆  
+- git pull origin branch 的分支不是浅克隆
