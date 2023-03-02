@@ -9,7 +9,6 @@
     - [应用程序组件](#应用程序组件)
     - [镜像（image）](#镜像image)
     - [模块和项目](#模块和项目)
-    - [dip(dp)和dpi](#dipdp和dpi)
     - [ConstraintLayout，RelativeLayout和LinearLayout区别](#constraintlayoutrelativelayout和linearlayout区别)
     - [RecyclerView](#recyclerview)
   - [文件存储](#文件存储)
@@ -29,6 +28,13 @@
   - [AndroidManifest.xml](#androidmanifestxml)
   - [资源类型概览（res/xx）](#资源类型概览resxx)
   - [Jetpack Compose](#jetpack-compose)
+  - [mvp理解](#mvp理解)
+  - [Android各种单位换算](#android各种单位换算)
+    - [px](#px)
+    - [ppi](#ppi)
+    - [dpi](#dpi)
+    - [dp(dip)](#dpdip)
+    - [sp](#sp)
   
 ## 基础知识
 
@@ -84,12 +90,6 @@ api就相当与接口。在这个版本的api里调用相机是接收一个参�
 ### 模块和项目
 
 Android Studio 中的概念。项目（Project）对应其他软件（vscode）中的工作空间（WorkSpace），模块（Module）对应其他软件（vscode）中的项目（Project）
-
-### dip(dp)和dpi
-
-- dip(dp): 在dpi = 160屏幕上，1dp = 1px。
-- dpi: 每英寸点数，即每英寸包含像素个数。手机对角的分辨率/手机的大小(手机是多少英寸)，如1920*1080的4.95寸的手机，dpi=2202(1920^2+1080^2=2202^2)/4.95=445
-- px=dpi*dip(dp)/160
 
 ### ConstraintLayout，RelativeLayout和LinearLayout区别
 
@@ -262,3 +262,77 @@ implementation fileTree(include: ['*.jar'], dir: 'libs')//本地jar包依赖
 
 ## Jetpack Compose
 <!-- TODO: https://developer.android.google.cn/jetpack/compose/documentation?hl=zh-cn -->
+
+## mvp理解
+
+> 资料一：[Android安卓架构MVC、MVP、MVVM之间的区别和联系](https://github.com/JereChen11/Android-MVC-MVP-MVVM-Simple-Demo)  
+
+## Android各种单位换算
+
+### px
+
+即像素，1px代表屏幕上的一个物理像素点。如果使用px就会导致不同分辨率的字体不一样大小，分辨率越大字越小
+
+### ppi
+
+在手机屏幕中指的是像素密度，这个是物理上的概念，它是客观存在的不会改变。
+
+### dpi
+
+dpi每英寸点数，每英寸包含像素个数即像素密度，指的是在**系统软件**上指定的单位尺寸的像素数量，它往往是写在**系统出厂配置文件的一个固定值**。  
+假设有一部手机，屏幕的物理尺寸为1.5x2.0英寸，屏幕分辨率为240x320，则dpi=240/1.5=160dpi（横向）= 320/2=160dpi（纵向）。简单说就是尺寸的长\宽\斜边 除以 屏幕分辨率的长\宽\斜边。实际上在手机厂家没有修改配置时，Android默认了几种dpi：ldpi（240×320）、mdpi（320x480）、hdpi（480x800）、xhdpi（720x1280）、xxhdpi（1080x1920），1dp分别等于0.75px、1px、1.5px、2px、3px
+
+### dp(dip)
+
+设备独立像素。
+1、先明白一个概念，所有显示到屏幕上的图像都是以 px 为单位。
+2、Dip 是我们开发中使用的长度单位，最后他也需要转换成 px。
+3、计算这个设备上 1dip 等于多少 px:
+   px = dip x dpi /160
+
+```java
+
+DisplayMetrics dm = new DisplayMetrics();
+getWindowManager().getDefaultDisplay().getMetrics(dm);
+//通常我们在使用DisplayMetrics时，都是直接获取内部变量来使用。所以下面直接列出各个内部变量。
+
+dm.ydpi;     //得到物理屏幕上 Y 轴方向每英寸的像素
+dm.xdpi;     //得到物理屏幕上 X 轴方向每英寸的像素 
+             //ps:  其实这两个大多数情况下都是相同的
+             //你能想象上面像素密度大很清晰 下面密度小跟马赛克一样吗 233333
+
+dm.density;           //获取当前设备的基准比例
+dm.densityDpi;        //获取系统dpi，随着 build.prop 文件中的代码而改变。
+
+dm.widthPixels;       //获取屏幕宽度的像素数量
+
+//获取屏幕高度的像素数量！
+//注意 - 因为这里会自动减去32dp的像素数量，根据分辨率不同的设备，减去的像素数量也不同，但是可以根据公式推算完整（px = dp x 基准比例）。
+/*为啥不用dm.densityDpi / 160 得到基准比例？
+  因为那个会随着build.prop文件代码变更而更改，算出来的不一定准确*/
+dm.heightPixels + 32 * dm.ydpi / 160;
+
+DisplayMetrics dm = new DisplayMetrics();
+getWindowManager().getDefaultDisplay().getMetrics(dm);
+//通常我们在使用DisplayMetrics时，都是直接获取内部变量来使用。所以下面直接列出各个内部变量。
+ 
+dm.ydpi;     //得到物理屏幕上 Y 轴方向每英寸的像素
+dm.xdpi;     //得到物理屏幕上 X 轴方向每英寸的像素 
+             //ps:  其实这两个大多数情况下都是相同的
+             //你能想象上面像素密度大很清晰 下面密度小跟马赛克一样吗 233333
+ 
+dm.density;           //获取当前设备的基准比例
+dm.densityDpi;        //获取系统dpi，随着 build.prop 文件中的代码而改变。
+ 
+dm.widthPixels;       //获取屏幕宽度的像素数量
+ 
+//获取屏幕高度的像素数量！
+//注意 - 因为这里会自动减去32dp的像素数量，根据分辨率不同的设备，减去的像素数量也不同，但是可以根据公式推算完整（px = dp x 基准比例）。
+/*为啥不用dm.densityDpi / 160 得到基准比例？
+  因为那个会随着build.prop文件代码变更而更改，算出来的不一定准确*/
+dm.heightPixels + 32 * dm.ydpi / 160;
+```
+
+### sp
+
+sp除了受屏幕密度影响外,还受到用户的字体大小影响
