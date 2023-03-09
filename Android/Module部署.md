@@ -7,6 +7,8 @@
   - [Module根据不同环境可以单独测试](#module根据不同环境可以单独测试)
   - [Module不同的环境展示不同的页面](#module不同的环境展示不同的页面)
   - [app如何跳转到独立运行的Module](#app如何跳转到独立运行的module)
+    - [使用第三方开源框架（阿里巴巴的Router）](#使用第三方开源框架阿里巴巴的router)
+    - [自己编写代理类](#自己编写代理类)
   - [build 注入环境变量](#build-注入环境变量)
   - [动态生产gradle](#动态生产gradle)
 
@@ -183,6 +185,14 @@ dependencies {
   ```
 
 ## app如何跳转到独立运行的Module
+
+### 使用第三方开源框架（阿里巴巴的Router）
+
+>[github](https://github.com/alibaba/ARouter/blob/master/README_CN.md)
+
+### 自己编写代理类
+
+>[app内各个module之间跳转](https://blog.csdn.net/Hunter2916/article/details/103229989)
 
 ## build 注入环境变量
 <!-- TODO -->
