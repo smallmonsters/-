@@ -23,8 +23,10 @@
   - [添加书签](#添加书签)
   - [上、下一个书签](#上下一个书签)
   - [搜索便签](#搜索便签)
-  - [跳转页面的top/bottom](#跳转页面的topbottom)
+  - [光标跳转本页的top/bottom](#光标跳转本页的topbottom)
   - [快速选择括号里的数据](#快速选择括号里的数据)
+  - [跳转页面的顶、底部](#跳转页面的顶底部)
+  - [上\\下一个单词](#上下一个单词)
 
 ##### 跳转下\上一个标签
 
@@ -114,10 +116,18 @@ Option + Command + up\down
 
 Command + F3
 
-##### 跳转页面的top/bottom
+##### 光标跳转本页的top/bottom
 
 fn + Command + up/down
 
 ##### 快速选择括号里的数据
 
 ctrl + Shift + p
+
+##### 跳转页面的顶、底部
+
+fn + Command + left/right
+
+##### 上\下一个单词
+
+ctrl + Option + up\down
