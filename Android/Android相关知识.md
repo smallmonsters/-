@@ -36,6 +36,8 @@
     - [dp(dip)](#dpdip)
     - [sp](#sp)
   - [Module和组件](#module和组件)
+  - [Binder](#binder)
+  - [handler](#handler)
   
 ## 基础知识
 
@@ -341,3 +343,9 @@ sp除了受屏幕密度影响外,还受到用户的字体大小影响
 ## Module和组件
 
 > [Android组件化和插件化开发](https://juejin.cn/post/6953600472045486111)
+
+## Binder
+<!-- TODO: -->
+
+## handler
+<!-- TODO: -->
