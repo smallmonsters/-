@@ -3,6 +3,16 @@
 
 - [Android相关知识](#android相关知识)
   - [基础知识](#基础知识)
+    - [引入第三方库](#引入第三方库)
+      - [api(compile废弃)](#apicompile废弃)
+      - [implementation](#implementation)
+      - [compileOnly(provided废弃)](#compileonlyprovided废弃)
+      - [runtimeOnly(runtimeOnly废弃)](#runtimeonlyruntimeonly废弃)
+      - [annotationProcessor](#annotationprocessor)
+      - [testImplementation(testCompile废弃)](#testimplementationtestcompile废弃)
+      - [debugImplementation(debugCompile废弃)](#debugimplementationdebugcompile废弃)
+      - [releaseImplementation(releaseCompile废弃)](#releaseimplementationreleasecompile废弃)
+    - [api和安卓版本](#api和安卓版本)
     - [相关术语的解析](#相关术语的解析)
     - [SDK兼容](#sdk兼容)
     - [SDK和api](#sdk和api)
@@ -22,9 +32,11 @@
     - [Module的build.gradle文件](#module的buildgradle文件)
       - [apply plugin](#apply-plugin)
       - [defaultConfig](#defaultconfig)
+      - [buildscript](#buildscript)
       - [buildTypes](#buildtypes)
       - [dependencies](#dependencies)
       - [compileOptions](#compileoptions)
+      - [repositories](#repositories)
   - [AndroidManifest.xml](#androidmanifestxml)
   - [资源类型概览（res/xx）](#资源类型概览resxx)
   - [Jetpack Compose](#jetpack-compose)
@@ -36,12 +48,59 @@
     - [dp(dip)](#dpdip)
     - [sp](#sp)
   - [Module和组件](#module和组件)
+  - [NotificationManage](#notificationmanage)
+    - [api](#api-1)
+    - [通知级别](#通知级别)
+  - [Intent](#intent)
   - [Binder](#binder)
   - [handler](#handler)
+  - [viewHolder](#viewholder)
+  - [ListView和RecyclerView区别](#listview和recyclerview区别)
   
 ## 基础知识
 
 可以直接查看菜鸟android部分
+
+### 引入第三方库
+
+> [在AndroidStudio上使用maven（一）](https://www.jianshu.com/p/41b3e906f60c)
+> [添加 build 依赖项](https://developer.android.google.cn/studio/build/dependencies?hl=zh-cn)
+>
+#### api(compile废弃)
+
+当其他模块依赖于此模块时，此模块使用api声明的依赖包是可以被其他模块使用
+
+#### implementation
+
+当其他模块依赖此模块时，此模块使用implementation声明的依赖包只限于模块内部使用，不允许其他模块使用。使用了该命令编译的依赖，1. 加快编译速度。2. 隐藏对外不必要的接口。例如：模块B依赖模块A，模块C依赖模块B，那么那么C将依赖不到A，这就是implementation关键字的作用。
+
+#### compileOnly(provided废弃)
+
+依赖会添加到编译路径中，但是不会打包到apk中，因此只能在编译时访问，且compileOnly修饰的依赖不会传递。
+
+#### runtimeOnly(runtimeOnly废弃)
+
+与compileOnly相反，它修饰的依赖不会添加到编译路径中，但是被打包到apk中，运行时使用。没有使用过。
+
+#### annotationProcessor
+
+用于注解处理器的依赖配置。
+
+#### testImplementation(testCompile废弃)
+
+ 只在单元测试代码的编译以及最终打包测试apk时有效。
+
+#### debugImplementation(debugCompile废弃)
+
+只在 debug 模式的编译和最终的 debug打包时有效
+
+#### releaseImplementation(releaseCompile废弃)
+
+仅仅针对 Release 模式的编译和最终的 Release 打包。
+
+### api和安卓版本
+
+> [SDK 平台版本说明](https://developer.android.com/studio/releases/platforms?hl=zh-cn)
 
 ### 相关术语的解析
 
@@ -205,6 +264,28 @@ apply plugin: 'com.android.application'
     }
 ```
 
+#### buildscript
+
+在 Gradle 的构建过程中，buildscript 是一个特殊的块，用于声明 Gradle 构建脚本本身的依赖项。buildscript 块通常位于构建脚本的开头部分，用于引用构建脚本中需要的工具、库和插件。
+
+buildscript 块中包含两个子块：
+
+repositories 块：用于声明构建脚本使用的仓库，例如 Maven Central、JCenter 或者自己搭建的私有仓库等。
+dependencies 块：用于声明构建脚本需要的依赖项，例如 Android Gradle Plugin、Kotlin 插件等。
+
+```Groovy
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.3'
+    }
+}
+
+```
+
 #### buildTypes
 
 ```Groovy
@@ -254,6 +335,33 @@ implementation fileTree(include: ['*.jar'], dir: 'libs')//本地jar包依赖
         incremental true //是否启用 gradle 新增加的 增量模式 , 默认为 true 
     }
 ```
+
+#### repositories
+
+```Groovy
+ repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven {
+      url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/" }//个推的maven镜像依赖
+      maven 
+        {
+          url 'http://maven.aliyun.com/nexus/content/repositories/releases/' //阿里云的maven
+        }
+    }
+
+```
+
+Gradle6.0以下 默认会使用 Maven Central 和 JCenter 作为默认的 Maven 仓库，因此在构建脚本中不需要声明这两个仓库的地址，可以直接使用其中的依赖
+
+```Groovy
+repositories {
+    // 默认仓库已经包含了 Maven Central 和 JCenter
+}
+```
+
+在新版的 Gradle（6.0 及以上版本）中，默认情况下会使用 Maven Central 作为默认的 Maven 仓库，因此在构建脚本中不需要声明 Maven Central 的地址，可以直接使用其中的依赖。
 
 ## AndroidManifest.xml
 
@@ -344,8 +452,72 @@ sp除了受屏幕密度影响外,还受到用户的字体大小影响
 
 > [Android组件化和插件化开发](https://juejin.cn/post/6953600472045486111)
 
+## NotificationManage
+
+> [通知概览](https://developer.android.com/guide/topics/ui/notifiers/notifications?hl=zh-cn)
+> [创建通知](https://developer.android.com/training/notify-user/build-notification?hl=zh-cn)
+> []()
+<!-- TODO: 点击通知，打开app -->
+
+> 1、NotificationManager是管理通知的类，负责向系统发送和取消通知。  
+> 2、Notification是通知的实体类，它描述了通知的内容和行为，例如通知的标题、正文、图标等。使用Notification.Builder类来创建一个通知对象，然后使用NotificationManager将其发送到系统中  
+
+```java
+// 获取 NotificationManager 实例
+NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+// 创建 Notification 对象
+Notification notification = new Notification.Builder(context)
+        .setContentTitle("测试标题")//设置通知栏标题  
+        .setContentText("测试内容") //设置通知栏显示内容
+        //这个是必须的 
+        .setSmallIcon(R.drawable.ic_launcher);//设置通知小ICON  
+        .build();
+
+// 发送通知
+notificationManager.notify(1, notification);
+
+```
+
+### api
+
+- setContentTitle()：设置通知的标题，通常是一句简短的描述。
+- setContentText()：设置通知的内容，通常是一段详细的描述。
+- setAutoCancel()：设置通知点击后是否自动取消，默认为不取消。
+- setPriority()：设置通知的优先级，可以是 PRIORITY_DEFAULT、PRIORITY_LOW、PRIORITY_HIGH 或 PRIORITY_MAX。
+- setSound()：设置通知的提示音，可以是一个 Uri 对象或者系统自带的一种提示音。
+- setVibrate()：设置通知的震动模式，可以是一个 long 类型的数组，表示振动时长的毫秒数。
+- setLights()：设置通知的 LED 提示灯，可以设置颜色和闪烁频率等属性。
+- addAction()：为通知添加一个操作按钮，点击时可以触发指定的操作。
+- setLargeIcon()：设置通知的大图标，通常用于显示应用的 logo 或者其他重要的图片。
+- setStyle()：设置通知的样式，可以是 NotificationCompat.BigTextStyle、NotificationCompat.InboxStyle 等。
+- setProgress()：设置通知的进度条，可以用于显示长时间任务的进度。
+- setCategory()：设置通知的类别，可以是 CATEGORY_MESSAGE、CATEGORY_EMAIL、CATEGORY_ALARM 等。
+- setColor()：设置通知的颜色，可以用于在通知栏中显示不同的颜色。
+- setGroup()：设置通知的分组 ID，可以将多个通知分组显示。
+- setGroupSummary()：设置通知的分组摘要，可以用于在通知栏中显示一条总结信息。
+- setContentIntent()：设置通知的点击行为，可以是打开某个 Activity 或者启动某个服务等操作。
+- setDeleteIntent()：设置通知的删除行为，可以在用户清除通知时触发某个操作。
+- setChannelId()：设置通知的通知渠道 ID，必须与已创建的通知渠道 ID 匹配。
+
+### 通知级别
+
+- IMPORTANCE_HIGH 发出通知声音并显示为提示通知
+- IMPORTANCE_DEFAULT 发出通知声音，并且通知栏有通知
+- IMPORTANCE_LOW 没有通知声音，但是通知栏有通知
+- IMPORTANCE_MIN 没有通知声音，也不会出现在状态栏上
+
+## Intent
+<!-- TODO: -->
+
 ## Binder
 <!-- TODO: -->
 
 ## handler
+<!-- TODO: -->
+
+## viewHolder
+<!-- TODO: -->
+
+## ListView和RecyclerView区别
 <!-- TODO: -->

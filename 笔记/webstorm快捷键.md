@@ -28,6 +28,7 @@
   - [跳转页面的顶、底部](#跳转页面的顶底部)
   - [上\\下一个单词](#上下一个单词)
   - [选中行后面加光标](#选中行后面加光标)
+  - [配置别名](#配置别名)
 
 ##### 跳转下\上一个标签
 
@@ -136,3 +137,28 @@ ctrl + Option + up\down
 ##### 选中行后面加光标
 
 Option + Shift + g
+
+##### 配置别名
+
+```json
+// jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "target": "ES6",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+
+```
