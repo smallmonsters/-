@@ -2,6 +2,7 @@
 # Android相关知识
 
 - [Android相关知识](#android相关知识)
+  - [合并多个清单文件](#合并多个清单文件)
   - [基础知识](#基础知识)
     - [引入第三方库](#引入第三方库)
       - [api(compile废弃)](#apicompile废弃)
@@ -27,16 +28,6 @@
       - [API](#api)
     - [外部存储](#外部存储)
   - [Android Gradle](#android-gradle)
-  - [Gradle配置](#gradle配置)
-    - [Project的build.gradle文件](#project的buildgradle文件)
-    - [Module的build.gradle文件](#module的buildgradle文件)
-      - [apply plugin](#apply-plugin)
-      - [defaultConfig](#defaultconfig)
-      - [buildscript](#buildscript)
-      - [buildTypes](#buildtypes)
-      - [dependencies](#dependencies)
-      - [compileOptions](#compileoptions)
-      - [repositories](#repositories)
   - [AndroidManifest.xml](#androidmanifestxml)
   - [资源类型概览（res/xx）](#资源类型概览resxx)
   - [Jetpack Compose](#jetpack-compose)
@@ -56,7 +47,16 @@
   - [handler](#handler)
   - [viewHolder](#viewholder)
   - [ListView和RecyclerView区别](#listview和recyclerview区别)
+  - [资源地址](#资源地址)
+    - [Maven 中央仓库](#maven-中央仓库)
+    - [安卓主包分包](#安卓主包分包)
+    - [热修复](#热修复)
+    - [apk构建流程](#apk构建流程)
   
+## 合并多个清单文件
+
+> [合并多个清单文件](https://developer.android.com/studio/build/manifest-merge?hl=zh-cn)
+
 ## 基础知识
 
 可以直接查看菜鸟android部分
@@ -197,171 +197,6 @@ getDir(String name, int mode) //获取的目录是/data/user/0/package_name/app_
 ## Android Gradle
 
 [官方文档](https://developer.android.google.cn/studio/releases/gradle-plugin?hl=zh-cn#groovy)
-
-## Gradle配置
-
-[官方文档](https://developer.android.google.cn/studio/build?hl=zh-cn)
-
-### Project的build.gradle文件
-
-```Groovy
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {//这里是gradle脚本执行所需依赖，分别是对应的maven库和插件
-    
-    repositories {
-        google()//从Android Studio3.0后新增了google()配置，可以引用google上的开源项目
-        jcenter()//是一个类似于github的代码托管仓库，声明了jcenter()配置，可以轻松引用 jcenter上的开源项目
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'////此处是android的插件gradle，gradle是一个强大的项目构建工具
-        
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {//这里是项目本身需要的依赖，比如项目所需的maven库
-    repositories {
-        google()
-        jcenter()
-    }
-}
-
-// 运行gradle clean时，执行此处定义的task任务。
-// 该任务继承自Delete，删除根目录中的build目录。
-// 相当于执行Delete.delete(rootProject.buildDir)。
-// gradle使用groovy语言，调用method时可以不用加（）。
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-```
-
-### Module的build.gradle文件
-
-#### apply plugin
-
-```Groovy
-// 声明是Android程序，
-//com.android.application 表示这是一个应用程序模块
-//com.android.library 标识这是一个库模块
-//而这区别：前者可以直接运行，后着是依附别的应用程序运行
-apply plugin: 'com.android.application'
-```
-
-#### defaultConfig
-
-```Groovy
-    compileSdkVersion 27//设置编译时用的Android版本
-    defaultConfig {
-        applicationId "com.billy.myapplication"//项目的包名，与清单文件的manifest中的package一致
-        minSdkVersion 16//项目最低兼容的版本
-        targetSdkVersion 27//项目的目标版本
-        versionCode 1//版本号，必须是整数
-        versionName "1.0"//版本名称
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"//表明要使用AndroidJUnitRunner进行单元测试
-    }
-```
-
-#### buildscript
-
-在 Gradle 的构建过程中，buildscript 是一个特殊的块，用于声明 Gradle 构建脚本本身的依赖项。buildscript 块通常位于构建脚本的开头部分，用于引用构建脚本中需要的工具、库和插件。
-
-buildscript 块中包含两个子块：
-
-repositories 块：用于声明构建脚本使用的仓库，例如 Maven Central、JCenter 或者自己搭建的私有仓库等。
-dependencies 块：用于声明构建脚本需要的依赖项，例如 Android Gradle Plugin、Kotlin 插件等。
-
-```Groovy
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.3'
-    }
-}
-
-```
-
-#### buildTypes
-
-```Groovy
-    buildTypes {// 生产/测试环境配置
-        release {// 生产环境
-            buildConfigField("boolean", "LOG_DEBUG", "false")//配置Log日志
-            buildConfigField("String", "URL_PERFIX", "\"https://release.cn/\"")// 配置URL前缀
-            minifyEnabled false//是否对代码进行混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
-            signingConfig signingConfigs.release//设置签名信息
-            pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
-            zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
-            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-        }
-        debug {// 测试环境
-            buildConfigField("boolean", "LOG_DEBUG", "true")//配置Log日志
-            buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
-            minifyEnabled false//是否对代码进行混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
-            signingConfig signingConfigs.debug//设置签名信息
-            debuggable false//是否支持断点调试
-            jniDebuggable false//是否可以调试NDK代码
-            renderscriptDebuggable false//是否开启渲染脚本就是一些c写的渲染方法
-            zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
-            pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
-            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-        }
-    }
-```
-
-#### dependencies
-
-```Groovy
-implementation 'androidx.appcompat:appcompat:1.4.1' // 官方解决不同版本的兼容依赖
-implementation fileTree(include: ['*.jar'], dir: 'libs')//本地jar包依赖
-```
-
-#### compileOptions
-
-```Groovy
- compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8 //表示 编译使用的 Java 版本
-        targetCompatibility JavaVersion.VERSION_1_8 //表示 生成 Java 字节码版本
-        encoding "UTF-8" //表示加载的 Java 源文件的编码 , 默认为 UTF-8 , 类型为字符串 
-        incremental true //是否启用 gradle 新增加的 增量模式 , 默认为 true 
-    }
-```
-
-#### repositories
-
-```Groovy
- repositories {
-    google()
-    jcenter()
-    mavenCentral()
-    maven {
-      url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/" }//个推的maven镜像依赖
-      maven 
-        {
-          url 'http://maven.aliyun.com/nexus/content/repositories/releases/' //阿里云的maven
-        }
-    }
-
-```
-
-Gradle6.0以下 默认会使用 Maven Central 和 JCenter 作为默认的 Maven 仓库，因此在构建脚本中不需要声明这两个仓库的地址，可以直接使用其中的依赖
-
-```Groovy
-repositories {
-    // 默认仓库已经包含了 Maven Central 和 JCenter
-}
-```
-
-在新版的 Gradle（6.0 及以上版本）中，默认情况下会使用 Maven Central 作为默认的 Maven 仓库，因此在构建脚本中不需要声明 Maven Central 的地址，可以直接使用其中的依赖。
 
 ## AndroidManifest.xml
 
@@ -521,3 +356,19 @@ notificationManager.notify(1, notification);
 
 ## ListView和RecyclerView区别
 <!-- TODO: -->
+
+## 资源地址
+
+### Maven 中央仓库
+
+Maven中央仓库的地址是：<https://repo.maven.apache.org/maven2/>
+
+### 安卓主包分包
+<!-- TODO： -->
+
+### 热修复
+<!-- TODO:  -->
+
+### apk构建流程
+
+<!-- TODO: 加固、混淆、签名、对齐？？ -->
