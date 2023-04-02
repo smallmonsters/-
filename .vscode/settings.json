@@ -1,9 +1,13 @@
 {
   "cSpell.words": [
     "ahooks",
+    "allprojects",
     "antd",
+    "buildscript",
+    "classpath",
     "compgen",
     "getopts",
+    "jcenter",
     "OPTARG",
     "OPTIND"
   ]

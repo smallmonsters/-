@@ -28,20 +28,21 @@
     - [相关的 Gradle 命令](#相关的-gradle-命令)
   - [配置](#配置)
     - [目录结构](#目录结构)
+    - [废弃的api(gradle/as3.0以上)](#废弃的apigradleas30以上)
+      - [api(compile废弃)](#apicompile废弃)
+      - [implementation](#implementation)
+      - [compileOnly(provided废弃)](#compileonlyprovided废弃)
+      - [runtimeOnly(runtimeOnly废弃)](#runtimeonlyruntimeonly废弃)
+      - [annotationProcessor](#annotationprocessor)
+      - [testImplementation(testCompile废弃)](#testimplementationtestcompile废弃)
+      - [debugImplementation(debugCompile废弃)](#debugimplementationdebugcompile废弃)
+      - [releaseImplementation(releaseCompile废弃)](#releaseimplementationreleasecompile废弃)
     - [项目和模块都有的配置](#项目和模块都有的配置)
     - [项目级别的build.gradle文件](#项目级别的buildgradle文件)
-    - [应用级别的build.gradle文件](#应用级别的buildgradle文件)
-      - [apply plugin](#apply-plugin)
-      - [defaultConfig](#defaultconfig)
-      - [buildscript](#buildscript)
-      - [buildTypes](#buildtypes)
-      - [dependencies](#dependencies)
       - [compileOptions](#compileoptions)
-      - [repositories](#repositories)
-      - [构建过程](#构建过程)
-      - [如果两个配置有冲突怎么办](#如果两个配置有冲突怎么办)
-      - [配置字段](#配置字段)
-      - [什么是 DSL（领域专用语言）](#什么是-dsl领域专用语言)
+    - [settings.gradle](#settingsgradle)
+  - [如果两个配置有冲突怎么办](#如果两个配置有冲突怎么办)
+  - [配置字段](#配置字段)
 
 > [Gradle 入门--只此一篇](https://www.jianshu.com/p/001abe1d8e95>) <!-- todo: -->
 > [Gradle插件从入门到进阶](https://juejin.cn/post/6844903838290296846) <!-- todo: -->
@@ -315,6 +316,48 @@ gradle —stop： 停止所有 Daemon 进程。
 - gradle.properties： 用作项目级 Gradle 配置项，会覆盖全局的配置项；
 - local.properties： 用作项目的私有属性配置，例如 SDK 安装目录，一般不把 local.properties 加入版本控制。
 
+### 废弃的api(gradle/as3.0以上)
+
+> [在AndroidStudio上使用maven（一）](https://www.jianshu.com/p/41b3e906f60c)
+> [添加 build 依赖项](https://developer.android.google.cn/studio/build/dependencies?hl=zh-cn)
+>
+#### api(compile废弃)
+
+当其他模块依赖于此模块时，此模块使用api声明的依赖包是可以被其他模块使用
+
+#### implementation
+
+当其他模块依赖此模块时，此模块使用implementation声明的依赖包只限于模块内部使用，不允许其他模块使用。使用了该命令编译的依赖，
+
+1. 加快编译速度。
+2. 隐藏对外不必要的接口。
+
+例如：模块B依赖模块A，模块C依赖模块B，那么那么C将依赖不到A，这就是implementation关键字的作用。
+
+#### compileOnly(provided废弃)
+
+依赖会添加到编译路径中，但是不会打包到apk中，因此只能在编译时访问，且compileOnly修饰的依赖不会传递。
+
+#### runtimeOnly(runtimeOnly废弃)
+
+与compileOnly相反，它修饰的依赖不会添加到编译路径中，但是被打包到apk中，运行时使用。没有使用过。
+
+#### annotationProcessor
+
+用于注解处理器的依赖配置。
+
+#### testImplementation(testCompile废弃)
+
+ 只在单元测试代码的编译以及最终打包测试apk时有效。
+
+#### debugImplementation(debugCompile废弃)
+
+只在 debug 模式的编译和最终的 debug打包时有效
+
+#### releaseImplementation(releaseCompile废弃)
+
+仅仅针对 Release 模式的编译和最终的 Release 打包。
+
 ### 项目和模块都有的配置
 
 ```Groovy
@@ -331,10 +374,12 @@ repositories {
   jcenter()//是一个类似于github的代码托管仓库，声明了jcenter()配置，可以轻松引用 jcenter上的开源项目，这个已经不在维护
 }
 // ------------------------------dependencies----------------------------------
+/**
+  * 用于声明构建脚本需要的依赖项，例如 Android Gradle Plugin、Kotlin 插件等。
+  */
  dependencies {
-  classpath 'com.android.tools.build:gradle:3.0.0'////此处是android的插件gradle，gradle是一个强大的项目构建工具
-  // NOTE: Do not place your application dependencies here; they belong
-  // in the individual module build.gradle files
+  classpath 'org.apache.commons:commons-csv:1.0' //classpath 声明只能用于 buildscript
+  implementation 'org.apache.commons:commons-csv:1.0' 
 }
 // ------------------------------buildscript----------------------------------
 /**
@@ -343,22 +388,63 @@ repositories {
 */
 buildscript {
   repositories {} // 跟repositories一样
+  dependencies {} // 跟dependencies一样
 }
+// ------------------------------allprojects----------------------------------
+/**
+  * todo: 子项目是否也可以设置？根目录和子项目同时配置了是否孙子项目是否按照子项目的配置构建？
+  * todo: 在app settings.gradle中task 没有运行
+*/
+allprojects{
 
-dependencies {}
+}
 
 ```
 
 ### 项目级别的build.gradle文件
 
-项目级别的build.gradle文件用于定义项目的全局配置和依赖项，它包括了所有模块的公共配置和依赖项。例如，它可以配置Gradle插件的版本、Android Gradle插件的版本以及所有模块所需的第三方库。
+项目级别的build.gradle文件用于定义**项目**的全局配置和依赖项，它包括了所有模块的公共配置和依赖项。例如，它可以配置Gradle插件的版本、Android Gradle插件的版本以及所有模块所需的第三方库。
+
+> [Gradle配置](https://juejin.cn/post/7160337743552675847#heading-15)
 
 ```Groovy
-allprojects {//这里是项目本身需要的依赖，比如项目所需的maven库
-    repositories {
-        google()
-        jcenter()
+android {
+  compileSdkVersion 27//设置编译时用的Android版本
+  defaultConfig {
+    applicationId "com.billy.myapplication"//项目的包名，与清单文件的manifest中的package一致
+    minSdkVersion 16//项目最低兼容的版本
+    targetSdkVersion 27//项目的目标版本
+    versionCode 1//版本号，必须是整数
+    versionName "1.0"//版本名称
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"//表明要使用AndroidJUnitRunner进行单元测试
+  }
+  buildTypes {// 生产/测试环境配置
+    release {// 生产环境
+      buildConfigField("boolean", "LOG_DEBUG", "false")//配置Log日志
+      buildConfigField("String", "URL_PERFIX", "\"https://release.cn/\"")// 配置URL前缀
+      minifyEnabled false//是否对代码进行混淆
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
+      signingConfig signingConfigs.release//设置签名信息
+      pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
+      zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
+      applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+      versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
     }
+    debug {// 测试环境
+      buildConfigField("boolean", "LOG_DEBUG", "true")//配置Log日志
+      buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
+      minifyEnabled false//是否对代码进行混淆
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
+      signingConfig signingConfigs.debug//设置签名信息
+      debuggable false//是否支持断点调试
+      jniDebuggable false//是否可以调试NDK代码
+      renderscriptDebuggable false//是否开启渲染脚本就是一些c写的渲染方法
+      zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
+      pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
+      applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+      versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
+    }
+  }
 }
 
 // 运行gradle clean时，执行此处定义的task任务。
@@ -368,93 +454,6 @@ allprojects {//这里是项目本身需要的依赖，比如项目所需的maven
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-```
-
-### 应用级别的build.gradle文件
-
-应用级别的build.gradle文件用于配置应用程序本身的构建设置。它包括应用程序的包名、版本号、应用程序的主题、清单文件等应用程序特有的配置。
-
-#### apply plugin
-
-```Groovy
-// 声明是Android程序，
-//com.android.application 表示这是一个应用程序模块
-//com.android.library 标识这是一个库模块
-//而这区别：前者可以直接运行，后着是依附别的应用程序运行
-apply plugin: 'com.android.application'
-```
-
-#### defaultConfig
-
-```Groovy
-    compileSdkVersion 27//设置编译时用的Android版本
-    defaultConfig {
-        applicationId "com.billy.myapplication"//项目的包名，与清单文件的manifest中的package一致
-        minSdkVersion 16//项目最低兼容的版本
-        targetSdkVersion 27//项目的目标版本
-        versionCode 1//版本号，必须是整数
-        versionName "1.0"//版本名称
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"//表明要使用AndroidJUnitRunner进行单元测试
-    }
-```
-
-#### buildscript
-
-buildscript 块中包含两个子块：
-
-repositories 块：用于声明构建脚本使用的仓库，例如 Maven Central、JCenter 或者自己搭建的私有仓库等。
-dependencies 块：用于声明构建脚本需要的依赖项，例如 Android Gradle Plugin、Kotlin 插件等。
-
-```Groovy
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.3'
-    }
-}
-
-```
-
-#### buildTypes
-
-```Groovy
-    buildTypes {// 生产/测试环境配置
-        release {// 生产环境
-            buildConfigField("boolean", "LOG_DEBUG", "false")//配置Log日志
-            buildConfigField("String", "URL_PERFIX", "\"https://release.cn/\"")// 配置URL前缀
-            minifyEnabled false//是否对代码进行混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
-            signingConfig signingConfigs.release//设置签名信息
-            pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
-            zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
-            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-        }
-        debug {// 测试环境
-            buildConfigField("boolean", "LOG_DEBUG", "true")//配置Log日志
-            buildConfigField("String", "URL_PERFIX", "\"https://test.com/\"")// 配置URL前缀
-            minifyEnabled false//是否对代码进行混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆的规则文件
-            signingConfig signingConfigs.debug//设置签名信息
-            debuggable false//是否支持断点调试
-            jniDebuggable false//是否可以调试NDK代码
-            renderscriptDebuggable false//是否开启渲染脚本就是一些c写的渲染方法
-            zipAlignEnabled true//是否对APK包执行ZIP对齐优化，减小zip体积，增加运行效率
-            pseudoLocalesEnabled false//是否在APK中生成伪语言环境，帮助国际化的东西，一般使用的不多
-            applicationIdSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-            versionNameSuffix 'test'//在applicationId 中添加了一个后缀，一般使用的不多
-        }
-    }
-```
-
-#### dependencies
-
-```Groovy
-implementation 'androidx.appcompat:appcompat:1.4.1' // 官方解决不同版本的兼容依赖
-implementation fileTree(include: ['*.jar'], dir: 'libs')//本地jar包依赖
 ```
 
 #### compileOptions
@@ -468,44 +467,14 @@ implementation fileTree(include: ['*.jar'], dir: 'libs')//本地jar包依赖
     }
 ```
 
-#### repositories
+### settings.gradle
 
 ```Groovy
- repositories {
-    google()
-    jcenter()
-    mavenCentral()
-    maven {
-      url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/" 
-      }//个推的maven镜像依赖
-    
-    maven {
-      url 'http://maven.aliyun.com/nexus/content/repositories/releases/' //阿里云的maven
-    }
- }
+rootProject.name = "xx" // 指定项目根 Project 的名称
 ```
-
-Gradle6.0以下 默认会使用 Maven Central 和 JCenter 作为默认的 Maven 仓库，因此在构建脚本中不需要声明这两个仓库的地址，可以直接使用其中的依赖
-
-```Groovy
-repositories {
-    // 默认仓库已经包含了 Maven Central 和 JCenter
-}
-```
-
-#### 构建过程
-
-- 初始化阶段
-  首先会创建一个Project对象，然后执行build.gradle配置这个对象。如果一个工程中有多个module,那么意味着会有多个Project,也就需要多个build.gradle.
-  
-- 配置阶段
-  这个阶段，配置脚本会被执行，执行的过程中，新的task会被创建并且配置给Project对象。
-
-- 执行阶段
-  这个阶段，配置阶段创建的task会被执行，执行的顺序取决于启动脚本时传入的参数和当前目录。
 
 <!-- 临时记录 -->
-#### 如果两个配置有冲突怎么办
+## 如果两个配置有冲突怎么办
 
 如果在项目级别的build.gradle文件和应用级别的build.gradle文件中都定义了相同的配置，那么在构建项目时可能会出现冲突。例如，如果两个文件都定义了不同版本的同一库，Gradle可能会出现无法解析依赖项的错误。
 
@@ -518,7 +487,7 @@ repositories {
 
 总的来说，为了避免冲突，您应该了解项目级别的build.gradle文件和应用级别的build.gradle文件的区别，避免在两个文件中同时定义相同的配置，并及时解决任何冲突。
 
-#### 配置字段
+## 配置字段
 
 在 Android 的 build.gradle 文件中，代码块被用来定义和配置 Android 构建和打包相关的任务和对象。这些代码块通常包括以下几种类型：
 
@@ -537,13 +506,3 @@ repositories {
 7、productFlavors 代码块：用于指定应用的多个产品风味，例如 free、paid 等。
 
 这些代码块都是以花括号 {} 包裹的形式出现，用于限定代码块中的内容范围，并且每个代码块都有各自的作用和配置项。开发人员可以根据自己的需求来配置这些代码块，以达到构建和打包 Android 应用的目的。
-
-#### 什么是 DSL（领域专用语言）
-
-DSL，即领域专用语言（Domain-Specific Language），是一种针对特定领域的编程语言。与通用编程语言（如Java、Python等）不同，DSL被设计为解决某个特定领域的问题，并且通常只涵盖该领域的一部分。
-
-DSL通常使用简单、易于理解的语法，以帮助非专业程序员更轻松地理解和编写代码。DSL可以提高编码效率、减少错误，并使代码更易于维护。
-
-DSL有两种类型：内部DSL和外部DSL。内部DSL是嵌入在通用编程语言中的DSL，而外部DSL是使用独立的语言编写的DSL。内部DSL使用通用编程语言的语法和结构，使其更易于集成到现有系统中。外部DSL通常需要一个特定的编译器或解释器来运行。
-
-DSL可以应用于各种领域，例如Web开发、网络路由、数据分析和科学计算等。

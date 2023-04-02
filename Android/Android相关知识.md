@@ -4,15 +4,6 @@
 - [Android相关知识](#android相关知识)
   - [合并多个清单文件](#合并多个清单文件)
   - [基础知识](#基础知识)
-    - [引入第三方库](#引入第三方库)
-      - [api(compile废弃)](#apicompile废弃)
-      - [implementation](#implementation)
-      - [compileOnly(provided废弃)](#compileonlyprovided废弃)
-      - [runtimeOnly(runtimeOnly废弃)](#runtimeonlyruntimeonly废弃)
-      - [annotationProcessor](#annotationprocessor)
-      - [testImplementation(testCompile废弃)](#testimplementationtestcompile废弃)
-      - [debugImplementation(debugCompile废弃)](#debugimplementationdebugcompile废弃)
-      - [releaseImplementation(releaseCompile废弃)](#releaseimplementationreleasecompile废弃)
     - [api和安卓版本](#api和安卓版本)
     - [相关术语的解析](#相关术语的解析)
     - [SDK兼容](#sdk兼容)
@@ -49,6 +40,7 @@
   - [ListView和RecyclerView区别](#listview和recyclerview区别)
   - [资源地址](#资源地址)
     - [Maven 中央仓库](#maven-中央仓库)
+    - [Android系统权限](#android系统权限)
     - [安卓主包分包](#安卓主包分包)
     - [热修复](#热修复)
     - [apk构建流程](#apk构建流程)
@@ -60,43 +52,6 @@
 ## 基础知识
 
 可以直接查看菜鸟android部分
-
-### 引入第三方库
-
-> [在AndroidStudio上使用maven（一）](https://www.jianshu.com/p/41b3e906f60c)
-> [添加 build 依赖项](https://developer.android.google.cn/studio/build/dependencies?hl=zh-cn)
->
-#### api(compile废弃)
-
-当其他模块依赖于此模块时，此模块使用api声明的依赖包是可以被其他模块使用
-
-#### implementation
-
-当其他模块依赖此模块时，此模块使用implementation声明的依赖包只限于模块内部使用，不允许其他模块使用。使用了该命令编译的依赖，1. 加快编译速度。2. 隐藏对外不必要的接口。例如：模块B依赖模块A，模块C依赖模块B，那么那么C将依赖不到A，这就是implementation关键字的作用。
-
-#### compileOnly(provided废弃)
-
-依赖会添加到编译路径中，但是不会打包到apk中，因此只能在编译时访问，且compileOnly修饰的依赖不会传递。
-
-#### runtimeOnly(runtimeOnly废弃)
-
-与compileOnly相反，它修饰的依赖不会添加到编译路径中，但是被打包到apk中，运行时使用。没有使用过。
-
-#### annotationProcessor
-
-用于注解处理器的依赖配置。
-
-#### testImplementation(testCompile废弃)
-
- 只在单元测试代码的编译以及最终打包测试apk时有效。
-
-#### debugImplementation(debugCompile废弃)
-
-只在 debug 模式的编译和最终的 debug打包时有效
-
-#### releaseImplementation(releaseCompile废弃)
-
-仅仅针对 Release 模式的编译和最终的 Release 打包。
 
 ### api和安卓版本
 
@@ -362,6 +317,9 @@ notificationManager.notify(1, notification);
 ### Maven 中央仓库
 
 Maven中央仓库的地址是：<https://repo.maven.apache.org/maven2/>
+
+### Android系统权限
+<!-- TODO：动态权限申请 -->
 
 ### 安卓主包分包
 <!-- TODO： -->
