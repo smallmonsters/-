@@ -1,5 +1,42 @@
 # Arrays
 
+- [Arrays](#arrays)
+  - [数组父子类型](#数组父子类型)
+  - [为什么不能在Java中创建泛型数组](#为什么不能在java中创建泛型数组)
+  - [Arrays.stream](#arraysstream)
+  - [Arrays.asList](#arraysaslist)
+
+## 数组父子类型
+
+```java
+  private static void testSubArr() {
+    //    ---------demo1--------
+    Parent[] parents1 = new Parent[2];
+    parents1[0] = new Sub();
+    //    ---------demo2--------
+    Parent[] parents2 = new Sub[2];  //  可以将子类型的对象存储在父类型的数组中
+    parents2[0] = new Sub();
+    parents2[1] = new Sub();
+    //    parents2[1] = new Parent(); // 编译时报错 finished with non-zero exit value 1
+    for (int i = 0; i < parents2.length; i++) {
+      // parents2[i].speak();  //parents2 的类型是Parent，没有speak方法
+      ((Sub) parents2[i]).speak(); // 强制转化
+    }
+    //    ---------demo3--------
+    //    Sub[] sub1 = new Parent[2]; // 不能这么写
+    //    ---------demo4--------
+    Sub[] sub1 = new Sub[2];
+    //    sub1[0] = new Parent(); // 不能这么写
+  }
+
+```
+
+## 为什么不能在Java中创建泛型数组
+
+> <https://juejin.cn/post/6844903748699947021>
+
+  在Java的早期版本中，由于没有泛型，而为了能够复用数组的实现，就将数组设计为[协变](./Java%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.md#协变)的。可能会引发一个问题：类型安全性。为了避免出现这种情况，Java为数组引入了第二个特性：数组能够记住元素的类型，并且要进行运行期类型检查。而Java的泛型是通过[类型擦除](./Java%E6%B3%9B%E5%9E%8B.md#类型擦除)(type erasure)来实现的。使用泛型数组数组的类被擦除了，无法在运行时确认数组类，故不能使用泛型数组型。
+
 ## Arrays.stream
 
 ## Arrays.asList
