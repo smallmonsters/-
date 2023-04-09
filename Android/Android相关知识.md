@@ -35,7 +35,6 @@
     - [通知级别](#通知级别)
   - [Intent](#intent)
   - [Binder](#binder)
-  - [handler](#handler)
   - [viewHolder](#viewholder)
   - [ListView和RecyclerView区别](#listview和recyclerview区别)
   - [资源地址](#资源地址)
@@ -44,6 +43,11 @@
     - [安卓主包分包](#安卓主包分包)
     - [热修复](#热修复)
     - [apk构建流程](#apk构建流程)
+  - [主线程和子线程](#主线程和子线程)
+    - [判断一个代码在那个子线程中运行](#判断一个代码在那个子线程中运行)
+    - [怎么开启一个子线程，子线程有什么实际的应用](#怎么开启一个子线程子线程有什么实际的应用)
+  - [Android 练习网站](#android-练习网站)
+  - [资料](#资料)
   
 ## 合并多个清单文件
 
@@ -303,9 +307,6 @@ notificationManager.notify(1, notification);
 ## Binder
 <!-- TODO: -->
 
-## handler
-<!-- TODO: -->
-
 ## viewHolder
 <!-- TODO: -->
 
@@ -330,3 +331,50 @@ Maven中央仓库的地址是：<https://repo.maven.apache.org/maven2/>
 ### apk构建流程
 
 <!-- TODO: 加固、混淆、签名、对齐？？ -->
+
+## 主线程和子线程
+
+### 判断一个代码在那个子线程中运行
+
+使用 android.os.Process 类中的 myPid() 方法来获取当前进程的 PID（进程 ID）。然后，可以使用 ActivityManager 类中的 getRunningAppProcesses() 方法来获取所有正在运行的应用程序进程列表，并通过比对 PID 来确定当前进程所属的应用程序进程。
+
+```java
+// 获取当前进程的 PID
+int pid = android.os.Process.myPid();
+
+// 获取正在运行的应用程序进程列表
+ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
+
+// 遍历进程列表，找到当前进程所属的应用程序进程
+for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcesses) {
+    if (processInfo.pid == pid) {
+        // 当前进程属于该应用程序进程
+        String processName = processInfo.processName;
+        Log.d(TAG, "当前进程运行在子进程 " + processName + " 中");
+        break;
+    }
+}
+
+```
+
+### 怎么开启一个子线程，子线程有什么实际的应用
+
+详细见[多线程应用](./多线程应用.md)
+
+## Android 练习网站
+
+- Android Developers：<https://developer.android.com/training/index.html>官方开发者网站，提供 Android 开发的基础教程和高级教程，以及各种 API 参考和示例代码。
+- Udacity：<https://www.udacity.com/course/android-developer-nanodegree-by-google--nd801>
+- Udacity 是一个在线学习平台，与 Google 合作提供 Android 开发纳米学位课程，提供丰富的课程材料和项目实战，帮助学习者掌握 Android 开发技能。
+- Codecademy：<https://www.codecademy.com/learn/learn-android>
+- Codecademy 是一个在线编程学习平台，提供了 Android 开发的课程和练习项目，涵盖了 Android 开发的基础知识和高级技巧。
+- Vogella：<http://www.vogella.com/tutorials/android.html>
+- Vogella 是一个面向开发者的教育资源网站，提供了 Android 开发的教程和示例代码，帮助学习者掌握 Android 开发技能。
+- Coursera：<https://www.coursera.org/courses?query=android>
+- Coursera 是一个在线教育平台，提供了许多 Android 开发的课程，帮助学习者掌握 Android 开发的基础知识和高级技巧。
+
+## 资料
+
+> [资料一](https://juejin.cn/post/6945288271995863071)   <!-- todo -->
+> [Android事件分发机制](<https://juejin.cn/post/6918272111152726024>)   <!-- todo -->
