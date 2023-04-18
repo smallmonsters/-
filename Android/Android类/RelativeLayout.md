@@ -1,0 +1,15 @@
+# RelativeLayout
+
+RelativeLayout是Android中常用的布局之一，它的作用是通过相对位置来定义控件的位置和大小。以下是RelativeLayout常用的API：
+
+- layout_alignParentTop、layout_alignParentBottom、layout_alignParentLeft、layout_alignParentRight：这些属性用于将控件相对于父布局的顶部、底部、左边或右边对齐。
+
+- layout_above、layout_below、layout_toLeftOf、layout_toRightOf：这些属性用于将控件放置在另一个控件的上方、下方、左侧或右侧。
+
+- layout_centerHorizontal、layout_centerVertical、layout_centerInParent：这些属性用于将控件水平或垂直居中，或在父布局的中心位置。
+
+- layout_alignBaseline：这个属性用于将控件的基线与另一个控件的基线对齐。
+
+- layout_alignStart、layout_alignEnd：这些属性用于将控件的起始位置或结束位置与另一个控件的起始位置或结束位置对齐，适用于RTL（从右到左）布局。
+
+- layout_alignLeft、layout_alignRight、layout_alignTop、layout_alignBottom：这些属性用于将控件的左边、右边、顶部或底部与另一个控件的对应位置对齐，可以实现更精细的布局。
