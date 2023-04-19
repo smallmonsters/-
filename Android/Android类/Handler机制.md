@@ -74,6 +74,8 @@ myQueue.sendMessage(msg);
 
 ```
 
+**注意** new Handler(looper) 是一个[匿名的内部类](../../Java/%E5%86%85%E9%83%A8%E7%B1%BB.md#匿名内部类)
+
 ### 创建
 
 在主线程(系统控制)中，通过调用Looper类的静态成员函数prepareMainLooper()来创建（应用启动时）消息队列。在其他子线程中，通过调用静态成员函数prepare()来创建。
