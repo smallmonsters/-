@@ -11,8 +11,6 @@
     - [应用程序组件](#应用程序组件)
     - [镜像（image）](#镜像image)
     - [模块和项目](#模块和项目)
-    - [ConstraintLayout，RelativeLayout和LinearLayout区别](#constraintlayoutrelativelayout和linearlayout区别)
-    - [RecyclerView](#recyclerview)
   - [文件存储](#文件存储)
     - [内部存储](#内部存储)
       - [典型的内部存储目录结构](#典型的内部存储目录结构)
@@ -111,14 +109,6 @@ api就相当与接口。在这个版本的api里调用相机是接收一个参�
 ### 模块和项目
 
 Android Studio 中的概念。项目（Project）对应其他软件（vscode）中的工作空间（WorkSpace），模块（Module）对应其他软件（vscode）中的项目（Project）
-
-### ConstraintLayout，RelativeLayout和LinearLayout区别
-
-TODO:
-
-### RecyclerView
-
-[官网](https://developer.android.google.cn/guide/topics/ui/layout/recyclerview?hl=zh-cn)
 
 ## 文件存储
 

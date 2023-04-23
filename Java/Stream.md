@@ -14,7 +14,7 @@
 
 ## IntStream.boxed
 
-这个方法的作用就是对 Stream 中的原始类型数据进行[装箱](./Java%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.md#装箱)，从而将其转换为对应的包装类型。在某些情况下，我们需要将原始类型的数据转换为包装类型的数据，例如在使用 Collectors 类的一些方法时，由于这些方法只能操作包装类型的数据，因此需要将原始类型的数据进行装箱。
+这个方法的作用就是对 Stream 中的原始类型数据进行[装箱](./Java%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86.md#装箱)，从而将其转换为对应的包装类型。在某些情况下，我们需要将原始类型的数据转换为包装类型的数据，例如在使用 [Collectors](./Collection%E6%8E%A5%E5%8F%A3.md#groupingBy) 类的一些方法时，由于这些方法只能操作包装类型的数据，因此需要将原始类型的数据进行装箱。
 
 ```java
   List b = IntStream.range(0, 2).boxed().collect(Collectors.toList());

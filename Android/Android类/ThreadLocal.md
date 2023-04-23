@@ -40,6 +40,7 @@ public class ThreadLocal<T> {
 
 - threadLocal.get()
 
+<!-- TODO: 先学习下数据结构再来看 -->
 ```java
 // ThreadLocal类
 public class ThreadLocal<T> {
@@ -59,7 +60,7 @@ public class ThreadLocal<T> {
     return setInitialValue();
   }
   private T setInitialValue() {
-    T value = initialValue(); // initialValue 返回null
+    T value = initialValue(); // initialValue 没有复制或者重写 返回null
     Thread t = Thread.currentThread();
     ThreadLocalMap map = getMap(t);
     if (map != null)
@@ -85,6 +86,13 @@ public class ThreadLocal<T> {
       size = 1;
       setThreshold(INITIAL_CAPACITY);
     }
+    private void set(ThreadLocal<?> key, Object value) {
+    
+       int i = key.threadLocalHashCode & (len-1);
+
+    }
   }
 }
 ```
+
+在ThreadLocal类中有一个内部类ThreadLocalMap保存数据
