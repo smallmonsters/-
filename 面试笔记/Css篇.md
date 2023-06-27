@@ -1,4 +1,6 @@
-- [BFC](#bfc)
+- [BFC](#bfc)- [BFC](#bfc)
+- [回流跟重绘](#回流跟重绘)
+- [设备像素、css像素、设备独立像素、dpr、ppi 之间的区别](#设备像素css像素设备独立像素dprppi-之间的区别)
 
 # BFC
 
@@ -20,4 +22,10 @@ BFC（Block Formatting Context），即块级格式化上下文，它是页面�
 - display的值为inline-block、inltable-cell、table-caption、table、inline-table、flex、inline-flex、grid、inline-grid
 - position的值为absolute或fixed
 
-# 回流跟重绘(<https://vue3js.cn/interview/css/layout_painting.html>)
+# [回流跟重绘]
+
+<https://vue3js.cn/interview/css/layout_painting.html>
+
+# 设备像素、css像素、设备独立像素、dpr、ppi 之间的区别
+
+ <https://github.com/febobo/web-interview/issues/97>
