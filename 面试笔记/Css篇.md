@@ -1,6 +1,13 @@
-- [BFC](#bfc)- [BFC](#bfc)
-- [回流跟重绘](#回流跟重绘)
+- [BFC](#bfc)
+- [\[回流跟重绘\]](#回流跟重绘)
 - [设备像素、css像素、设备独立像素、dpr、ppi 之间的区别](#设备像素css像素设备独立像素dprppi-之间的区别)
+- [水平垂直居中](#水平垂直居中)
+  - [方法一：利用定位+margin:auto](#方法一利用定位marginauto)
+  - [方法二、用定位+margin:负值](#方法二用定位margin负值)
+  - [方法三、定位+transform](#方法三定位transform)
+  - [方法四、使用 display: table; 和 vertical-align: middle](#方法四使用-display-table-和-vertical-align-middle)
+  - [使用 line-height 和 vertical-align 对图片进行垂直居中](#使用-line-height-和-vertical-align-对图片进行垂直居中)
+- [css优先级计算规则](#css优先级计算规则)
 
 # BFC
 
@@ -29,3 +36,129 @@ BFC（Block Formatting Context），即块级格式化上下文，它是页面�
 # 设备像素、css像素、设备独立像素、dpr、ppi 之间的区别
 
  <https://github.com/febobo/web-interview/issues/97>
+
+# 水平垂直居中
+
+```html
+ <div id="box">
+    <div id="child">test vertical align</div>
+  </div>
+```
+
+## 方法一：利用定位+margin:auto
+
+```css
+ #box {
+    width: 300px;
+    height: 300px;
+    background: #ddd;
+    position: relative;
+  }
+
+  #child {
+    width: 200px;
+    height: 100px;
+    background: orange;
+    position: absolute;
+    /* 垂直：定高 */
+    top: 0;    
+    bottom: 0;
+    /* 水平：定宽 */
+    right:0;
+    left:0;
+    margin: auto;
+    line-height: 100px;
+  }
+```
+
+## 方法二、用定位+margin:负值
+
+```css
+#box {
+    width: 300px;
+    height: 300px;
+    background: #ddd;
+    position: relative;
+}
+#child {
+    width: 50%;
+    height: 30%;
+    background: orange;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -15% 0 0 -25%;
+}
+```
+
+## 方法三、定位+transform
+
+```css
+  #box {
+    width: 300px;
+    height: 300px;
+    background: #ddd;
+    position: relative;
+  }
+
+  #child {
+    width: 50%;
+    height: 30%;
+    background: orange;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+```
+
+## 方法四、使用 display: table; 和 vertical-align: middle
+
+```css
+  #box {
+    width: 300px;
+    height: 300px;
+    background: #ddd;
+    display: table;
+  }
+
+  #child {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+```
+
+## 使用 line-height 和 vertical-align 对图片进行垂直居中
+
+```html
+ <div id="box">
+    <img
+      src="https://i2.hdslb.com/bfs/face/5ab927b2a13eee5fc0d9336730a5c313c9ccc2ac.jpg@240w_240h_1c_1s_!web-avatar-nav.avif">
+  </div>
+```
+
+```css
+  #box {
+    width: 300px;
+    height: 300px;
+    background: #ddd;
+    line-height: 300px;
+    text-align: center;
+  }
+
+  #box img {
+    width: 200px;
+    height: 200px;
+    vertical-align: middle;
+  }
+```
+
+# css优先级计算规则
+
+- 行间样式的特殊性是1,0,0,0
+- ID选择器的特殊性值，加0,1,0,0。
+- 类选择器、属性选择器或伪类，加0,0,1,0。
+- 元素和伪元素，加0,0,0,1。
+- 通配选择器*对特殊性没有贡献，即0,0,0,0。
+- 最后比较特殊的一个标志!important（权重），它没有特殊性值，但它的优先级是最高的，为了方便记忆，可以认为它的特殊性值为1,0,0,0,0。
