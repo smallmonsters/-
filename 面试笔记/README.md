@@ -2,4 +2,4 @@
 - [2019前端面试系列——JS高频手写代码题](https://www.cnblogs.com/chenwenhao/p/11294541.html#_label12)
 - [每天五分钟，半年大厂中](https://q.shanyue.tech/)
 - [Daily-Question](https://github.com/shfshanyue/Daily-Question)
-- [web-interview](https://github.com/febobo/web-interview)
+- [web-interview](https://vue3js.cn/interview/)
