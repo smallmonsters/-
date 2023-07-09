@@ -7,6 +7,7 @@ LABEL version="0.1" description="Mysql服务器" by="don"
 #将所需文件放到容器中
 COPY /mysql/setup.sh /mysql/setup.sh
 COPY /mysql/create_data_db.sql /mysql/create_data_db.sql
+COPY /mysql/create_data_db.sql /mysql/create_constraint_db.sql
 
 
 
