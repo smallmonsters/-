@@ -10,16 +10,17 @@ SET
 
 DROP TABLE IF EXISTS emp;
 
-create table emp(
-  id int comment '编号',
-  workno varchar(10) comment '工号',
-  name varchar(10) comment '姓名',
-  gender char comment '性别',
-  age tinyint unsigned comment '年龄',
-  idcard char(18) comment '身份证号',
-  workaddress varchar(50) comment '工作地址',
-  entrydate date comment '入职时间'
-) comment '员工表';
+create table
+  emp (
+    id int comment '编号',
+    workno varchar(10) comment '工号',
+    name varchar(10) comment '姓名',
+    gender char comment '性别',
+    age tinyint unsigned comment '年龄',
+    idcard char(18) comment '身份证号',
+    workaddress varchar(50) comment '工作地址',
+    entrydate date comment '入职时间'
+  ) comment '员工表';
 
 INSERT INTO
   emp (
@@ -36,7 +37,7 @@ VALUES
   (
     1,
     '1001',
-    '张三',
+    '张三1',
     'M',
     25,
     '110101199001010001',
