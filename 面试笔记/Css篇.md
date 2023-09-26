@@ -8,6 +8,8 @@
   - [方法四、使用 display: table; 和 vertical-align: middle](#方法四使用-display-table-和-vertical-align-middle)
   - [使用 line-height 和 vertical-align 对图片进行垂直居中](#使用-line-height-和-vertical-align-对图片进行垂直居中)
 - [css优先级计算规则](#css优先级计算规则)
+- [子元素只有三个时，第三个元素背景改变](#子元素只有三个时第三个元素背景改变)
+- [根元素display:flex;flex-direction: column;子元素display:flex;flex:1;孙子元素heigth:100%无效](#根元素displayflexflex-direction-column子元素displayflexflex1孙子元素heigth100无效)
 
 # BFC
 
@@ -162,3 +164,67 @@ BFC（Block Formatting Context），即块级格式化上下文，它是页面�
 - 元素和伪元素，加0,0,0,1。
 - 通配选择器*对特殊性没有贡献，即0,0,0,0。
 - 最后比较特殊的一个标志!important（权重），它没有特殊性值，但它的优先级是最高的，为了方便记忆，可以认为它的特殊性值为1,0,0,0,0。
+
+# 子元素只有三个时，第三个元素背景改变
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    ;
+    gap: 1em;
+    padding: 1em;
+    height: 200px;
+  }
+
+  .container>div {
+    height: 80%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: auto;
+  }
+  .container div:nth-child(-n+3):last-child{
+    background-color: aqua;
+    flex: 1.2;
+    height: 100%;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </div>
+
+  <div class="container">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+  </div>
+</body>
+
+</html>
+```
+
+:nth-child(an+b)
+
+- 1、a,b可为正值也可为负值；  
+- 2、-b为负值及减法；  
+- 3、-a为负值表示，从b开始（包括b）往前匹配a的倍数；  
+
+# 根元素display:flex;flex-direction: column;子元素display:flex;flex:1;孙子元素heigth:100%无效
