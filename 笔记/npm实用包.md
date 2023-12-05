@@ -6,6 +6,7 @@
     - [react弹簧动画库：react-spring](#react弹簧动画库react-spring)
     - [react单页SEO：react-helmet](#react单页seoreact-helmet)
   - [Vue](#vue)
+    - [v-viewe 图片查看器](#v-viewe-图片查看器)
     - [基于 element-ui \& Vue 实现快速增删改查的组件：xcrud](#基于-element-ui--vue-实现快速增删改查的组件xcrud)
     - [图片裁剪：vue-cropper](#图片裁剪vue-cropper)
     - [复制粘贴板](#复制粘贴板)
@@ -23,6 +24,7 @@
     - [纯css动画库animate.css](#纯css动画库animatecss)
     - [绿袜子css动画库](#绿袜子css动画库)
   - [工具](#工具)
+    - [js金额计算](#js金额计算)
     - [xml、json格式化：vkBeautify](#xmljson格式化vkbeautify)
     - [富文本编辑器](#富文本编辑器)
     - [轻量级的搜索引擎：fuse.js](#轻量级的搜索引擎fusejs)
@@ -56,6 +58,8 @@
 ### [react单页SEO](https://www.npmjs.com/package/react-helmet)：react-helmet
 
 ## Vue
+
+### [v-viewe 图片查看器](https://www.npmjs.com/package/v-viewer)
 
 ### [基于 element-ui & Vue 实现快速增删改查的组件](https://github.com/GoldSubmarine/xcrud)：xcrud
 
@@ -99,6 +103,8 @@ Vue.Draggable是一款基于Sortable.js实现的vue拖拽插件。
 ### [绿袜子css动画库](https://greensock.com/)
 
 ## 工具
+
+### [js金额计算](https://github.com/adamwdraper/Numeral-js)
 
 ### [xml、json格式化](https://github.com/vkiryukhin/vkBeautify)：vkBeautify
 

@@ -10,6 +10,7 @@
 - [css优先级计算规则](#css优先级计算规则)
 - [子元素只有三个时，第三个元素背景改变](#子元素只有三个时第三个元素背景改变)
 - [根元素display:flex;flex-direction: column;子元素display:flex;flex:1;孙子元素heigth:100%无效](#根元素displayflexflex-direction-column子元素displayflexflex1孙子元素heigth100无效)
+- [block和line-block区别](#block和line-block区别)
 
 # BFC
 
@@ -228,3 +229,5 @@ BFC（Block Formatting Context），即块级格式化上下文，它是页面�
 - 3、-a为负值表示，从b开始（包括b）往前匹配a的倍数；  
 
 # 根元素display:flex;flex-direction: column;子元素display:flex;flex:1;孙子元素heigth:100%无效
+
+# block和line-block区别
